@@ -49,9 +49,25 @@
                 </svg>
             </a>
 
-            <a href="/connexion" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 transition bg-gray-50 dark:bg-zinc-900">
-                Connexion
+            {% if session.get('username') %}
+                <span class="text-sm font-medium text-gray-300">
+                 🎮 {{ session['username'] }}
+                </span>
+        
+            {% if session.get('user_role') == 'admin' %}
+                <a href="{{ url_for('admin.dashboard') }}" class="text-xs bg-red-900/50 border border-red-800 text-red-200 px-2 py-1 rounded hover:bg-red-800 transition">
+                    Admin
+                </a>
+            {% endif %}
+
+            <a href="{{ url_for('auth.deconnexion') }}" class="text-sm text-gray-400 hover:text-white transition underline underline-offset-4">
+                 Déconnexion
             </a>
+            {% else %}
+                <a href="{{ url_for('auth.connexion') }}" class="px-4 py-2 bg-white text-black font-semibold text-sm rounded-lg hover:bg-gray-200 transition">
+                    Connexion
+                </a>
+            {% endif %}
         </div>
     </header>
 
