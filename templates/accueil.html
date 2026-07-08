@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil - Midnight Minimal{% endblock %}
+
+{% block content %}
+<section class="flex flex-col items-center justify-center min-h-[80vh] text-center px-4">
+    <span class="px-3 py-1 text-xs font-semibold tracking-wider text-gray-400 uppercase bg-gray-900 rounded-full border border-gray-800 mb-6">
+        Nouveau design 2026
+    </span>
+
+    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-500">
+        Bienvenue dans le futur.
+    </h1>
+    
+    <p class="mt-4 text-lg md:text-xl text-gray-400 max-w-2xl">
+        Une interface pensée pour l'essentiel. Utilisez le menu en haut à droite pour vous connecter ou ajuster vos paramètres.
+    </p>
+    
+    <div class="mt-8 flex space-x-4">
+        <a href="/connexion" class="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition shadow-lg shadow-white/10">
+            Rejoindre l'expérience
+        </a>
+    </div>
+</section>
+{% endblock %}
