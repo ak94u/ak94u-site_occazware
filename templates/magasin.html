@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}Boutique - Occaz' Gaming{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- En-tête du Magasin -->
+    <div class="border-b border-gray-200 dark:border-gray-800 pb-5 mb-8">
+        <h1 class="text-3xl font-extrabold tracking-tight">Nos PC & Composants</h1>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Découvrez nos configurations gamer d'occasion entièrement révisées et boostées.</p>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-8">
+        
+        <!-- BARRE LATÉRALE : FILTRES -->
+        <aside class="w-full lg:w-64 flex-shrink-0">
+            <div class="sticky top-24 space-y-6 bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5">
+                
+                <!-- Recherche -->
+                <div>
+                    <label for="search" class="block text-sm font-medium mb-2">Rechercher</label>
+                    <input type="text" id="search" placeholder="RTX 4070, PC Portable..." class="w-full text-sm bg-white dark:bg-zinc-950 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 text-black dark:text-white">
+                </div>
+
+                <!-- Catégories -->
+                <div>
+                    <h3 class="text-sm font-medium mb-3">Catégories</h3>
+                    <div class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                        <label class="flex items-center gap-2 cursor-pointer hover:text-black dark:hover:text-white">
+                            <input type="checkbox" checked class="rounded border-gray-300 dark:border-gray-700 text-blue-600 focus:ring-blue-500">
+                            PC Fixes Gamer
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer hover:text-black dark:hover:text-white">
+                            <input type="checkbox" class="rounded border-gray-300 dark:border-gray-700 text-blue-600 focus:ring-blue-500">
+                            PC Portables
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer hover:text-black dark:hover:text-white">
+                            <input type="checkbox" class="rounded border-gray-300 dark:border-gray-700 text-blue-600 focus:ring-blue-500">
+                            Cartes Graphiques
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer hover:text-black dark:hover:text-white">
+                            <input type="checkbox" class="rounded border-gray-300 dark:border-gray-700 text-blue-600 focus:ring-blue-500">
+                            Processeurs / Kits Évolutifs
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Budget -->
+                <div>
+                    <h3 class="text-sm font-medium mb-2">Budget Maximum</h3>
+                    <input type="range" min="300" max="2500" step="100" value="1500" class="w-full h-2 bg-gray-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                    <div class="flex justify-between text-xs text-gray-500 mt-2">
+                        <span>300€</span>
+                        <span class="font-semibold text-blue-600 dark:text-blue-400">Sous 1500€</span>
+                        <span>2500€</span>
+                    </div>
+                </div>
+
+                <button class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm py-2 rounded-lg transition">
+                    Filtrer les produits
+                </button>
+            </div>
+        </aside>
+
+        <!-- GRILLE DES PRODUITS -->
+        <main class="flex-grow">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                
+                <!-- PRODUIT 1 -->
+                <div class="group bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden flex flex-col justify-between transition hover:shadow-lg hover:border-gray-300 dark:hover:border-zinc-700">
+                    <div class="relative bg-gray-100 dark:bg-zinc-950 aspect-video flex items-center justify-center p-4">
+                        <!-- Badge Occaz -->
+                        <span class="absolute top-3 left-3 bg-green-600 text-white text-[10px] uppercase font-extrabold px-2 py-1 rounded">
+                            ✨ Occaz' Certifiée
+                        </span>
+                        <!-- Remplacer par une vraie image de boitier gamer -->
+                        <span class="text-4xl group-hover:scale-110 transition duration-200">🖥️</span>
+                    </div>
+                    <div class="p-5 flex-grow">
+                        <h3 class="font-bold text-lg leading-tight">PC Gamer - Cyber Occaz V1</h3>
+                        <p class="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-1">État : Excellent</p>
+                        
+                        <!-- Liste des composants -->
+                        <ul class="mt-4 space-y-1 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-zinc-800 pt-3">
+                            <li><strong class="text-gray-700 dark:text-gray-300">GPU :</strong> RTX 3070 (Occaz)</li>
+                            <li><strong class="text-gray-700 dark:text-gray-300">CPU :</strong> Ryzen 5 5600X (Occaz)</li>
+                            <li><strong class="text-gray-700 dark:text-gray-300">SSD :</strong> 1 To NVMe (<span class="text-emerald-500 font-medium">Neuf</span>)</li>
+                            <li><strong class="text-gray-700 dark:text-gray-300">Alim :</strong> 650W Corsair (<span class="text-emerald-500 font-medium">Neuf</span>)</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 pt-0 border-t border-gray-50 dark:border-zinc-800/50 mt-auto flex items-center justify-between">
+                        <span class="text-xl font-black">749,00 €</span>
+                        <button class="p-2 bg-gray-100 dark:bg-zinc-800 hover:bg-blue-600 dark:hover:bg-blue-600 hover:text-white dark:hover:text-white rounded-lg transition text-gray-700 dark:text-gray-300" title="Ajouter au panier">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 2 -->
+                <div class="group bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden flex flex-col justify-between transition hover:shadow-lg hover:border-gray-300 dark:hover:border-zinc-700">
+                    <div class="relative bg-gray-100 dark:bg-zinc-950 aspect-video flex items-center justify-center p-4">
+                        <span class="absolute top-3 left-3 bg-amber-600 text-white text-[10px] uppercase font-extrabold px-2 py-1 rounded">
+                            ⚡ Config de monstre
+                        </span>
+                        <span class="text-4xl group-hover:scale-110 transition duration-200">🚀</span>
+                    </div>
+                    <div class="p-5 flex-grow">
+                        <h3 class="font-bold text-lg leading-tight">PC Gamer - L'Overkill Reconditionné</h3>
+                        <p class="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-1">État : Comme neuf</p>
+                        
+                        <ul class="mt-4 space-y-1 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-zinc-800 pt-3">
+                            <li><strong class="text-gray-700 dark:text-gray-300">GPU :</strong> RTX 4080 Super (Occaz)</li>
+                            <li><strong class="text-gray-700 dark:text-gray-300">CPU :</strong> Intel i7-13700K (Occaz)</li>
+                            <li><strong class="text-gray-700 dark:text-gray-300">SSD :</strong> 2 To NVMe (<span class="text-emerald-500 font-medium">Neuf</span>)</li>
+                            <li><strong class="text-gray-700 dark:text-gray-300">Alim :</strong> 850W BeQuiet (<span class="text-emerald-500 font-medium">Neuf</span>)</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 pt-0 border-t border-gray-50 dark:border-zinc-800/50 mt-auto flex items-center justify-between">
+                        <span class="text-xl font-black">1 689,00 €</span>
+                        <button class="p-2 bg-gray-100 dark:bg-zinc-800 hover:bg-blue-600 dark:hover:bg-blue-600 hover:text-white dark:hover:text-white rounded-lg transition text-gray-700 dark:text-gray-300" title="Ajouter au panier">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 3 -->
+                <div class="group bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden flex flex-col justify-between transition hover:shadow-lg hover:border-gray-300 dark:hover:border-zinc-700">
+                    <div class="relative bg-gray-100 dark:bg-zinc-950 aspect-video flex items-center justify-center p-4">
+                        <span class="absolute top-3 left-3 bg-gray-600 text-white text-[10px] uppercase font-extrabold px-2 py-1 rounded">
+                            💻 Portable
+                        </span>
+                        <span class="text-4xl group-hover:scale-110 transition duration-200">💻</span>
+                    </div>
+                    <div class="p-5 flex-grow">
+                        <h3 class="font-bold text-lg leading-tight">Laptop - Asus TUF Gaming</h3>
+                        <p class="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-1">État : Bon état (Traces d'usure légères)</p>
+                        
+                        <ul class="mt-4 space-y-1 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-zinc-800 pt-3">
+                            <li><strong class="text-gray-700 dark:text-gray-300">GPU :</strong> RTX 3060 Mobile</li>
+                            <li><strong class="text-gray-700 dark:text-gray-300">CPU :</strong> i5-11400H</li>
+                            <li><strong class="text-gray-700 dark:text-gray-300">Écran :</strong> 15.6" 144Hz FHD</li>
+                            <li><strong class="text-gray-700 dark:text-gray-300">Batterie :</strong> <span class="text-amber-500 font-medium">Changée à neuf</span></li>
+                        </ul>
+                    </div>
+                    <div class="p-5 pt-0 border-t border-gray-50 dark:border-zinc-800/50 mt-auto flex items-center justify-between">
+                        <span class="text-xl font-black">590,00 €</span>
+                        <button class="p-2 bg-gray-100 dark:bg-zinc-800 hover:bg-blue-600 dark:hover:bg-blue-600 hover:text-white dark:hover:text-white rounded-lg transition text-gray-700 dark:text-gray-300" title="Ajouter au panier">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+</div>
+{% endblock %}

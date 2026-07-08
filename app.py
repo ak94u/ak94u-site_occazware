@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 
 # Importer le blueprint depuis le dossier controllers
 from controllers.accueil import page_accueil
+from controllers.parametres import page_parametres
+from controllers.a_propos import page_a_propos
+from controllers.magasin import page_magasin
 
 load_dotenv()
 
@@ -25,6 +28,9 @@ db = SQLAlchemy(app)
 # --- ENREGISTREMENT DES ROUTEURS (BLUEPRINTS) ---
 # On dit à Flask d'activer les routes définies dans le controller
 app.register_blueprint(page_accueil)
+app.register_blueprint(page_parametres)
+app.register_blueprint(page_a_propos)
+app.register_blueprint(page_magasin)
 
 if __name__ == '__main__':
     app.run(debug=True)
