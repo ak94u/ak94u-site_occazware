@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}À propos - Occaz' Gaming{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-6 py-12">
+    <header class="text-center mb-16">
+        <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl mb-4">
+            À propos de <span class="text-blue-600 dark:text-blue-500">Occaz' Gaming</span>
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Le hardware d'occasion reconditionné par des passionnés, pour des performances de haut niveau sans se ruiner.
+        </p>
+    </header>
+
+    <section class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div>
+            <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
+                🎮 Notre Histoire
+            </h2>
+            <div class="space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
+                <p>
+                    Fondé en 2026 par une équipe de techniciens et de gamers passionnés, <strong>Occaz' Gaming</strong> est né d'un constat simple : le matériel informatique neuf est devenu extrêmement cher, alors que des milliers de composants puissants dorment dans des placards.
+                </p>
+                <p>
+                    Notre mission est de donner une seconde vie à ces PC d'occasion en les nettoyant, en les testant rigoureusement et en y ajoutant les derniers composants de pointe pour en faire de véritables machines de guerre prêtes pour le gaming moderne.
+                </p>
+            </div>
+        </div>
+        <div class="bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-8 flex flex-col justify-center items-center text-center">
+            <span class="text-5xl mb-4">⚡</span>
+            <h3 class="text-xl font-semibold mb-2">L'économie circulaire</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                Moins de gaspillage électronique, plus d'images par seconde dans vos jeux préférés. C'est notre engagement.
+            </p>
+        </div>
+    </section>
+
+    <section class="mb-16">
+        <h2 class="text-2xl font-bold mb-8 text-center">🛡️ Pourquoi nous faire confiance ?</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            
+            <div class="bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-gray-800 p-6 rounded-xl">
+                <div class="text-2xl mb-3">🔍</div>
+                <h3 class="font-bold mb-2">Tests Ultra Stricts</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Chaque processeur, carte graphique et barrette de RAM passe une batterie de benchmarks intensifs avant d'être validé.
+                </p>
+            </div>
+
+            <div class="bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-gray-800 p-6 rounded-xl">
+                <div class="text-2xl mb-3">🛠️</div>
+                <h3 class="font-bold mb-2">Composants Neufs</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Pour assurer la longévité de nos configurations, le stockage (SSD) et l'alimentation sont systématiquement installés neufs.
+                </p>
+            </div>
+
+            <div class="bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-gray-800 p-6 rounded-xl">
+                <div class="text-2xl mb-3">🤝</div>
+                <h3 class="font-bold mb-2">Garantie & Support</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Toutes nos machines sont garanties. Notre équipe basée en France répond à toutes vos questions hardware.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/50 rounded-2xl p-8 text-center">
+        <h2 class="text-2xl font-bold mb-3 text-blue-900 dark:text-blue-400">Une question sur nos configs ?</h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-6 max-w-xl mx-auto text-sm">
+            Vous cherchez un composant spécifique ou vous avez besoin d'aide pour choisir votre futur PC gamer ? Notre équipe est disponible.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4 items-center">
+            <a href="tel:+33668118567" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium px-5 py-2.5 rounded-xl transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                Nous appeler au 06 68 11 85 67
+            </a>
+        </div>
+    </section>
+</div>
+{% endblock %}

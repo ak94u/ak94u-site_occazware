@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Paramètres - Occaz' Gaming{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-6 py-12">
+    <h1 class="text-3xl font-bold mb-8">Paramètres de l'application</h1>
+
+    <div class="bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-xl font-semibold flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                    </svg>
+                    Mode sombre / clair
+                </h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    Choisissez entre le mode sombre et le mode clair pour l'interface de l'application.
+                </p>
+            </div>
+
+            <button id="theme-toggle" onclick="toggleTheme()" type="button" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-gray-300 dark:bg-zinc-700" role="switch" aria-checked="false">
+                <span class="sr-only">Changer de thème</span>
+                <span id="theme-toggle-ball" aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-0 dark:translate-x-5 flex items-center justify-center text-xs">
+                    <span id="theme-icon">🌙</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        
+        if (currentTheme === 'dark') {
+            // Passer au mode clair
+            html.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            updateUI('light');
+        } else {
+            // Passer au mode sombre (de base)
+            html.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            updateUI('dark');
+        }
+    }
+
+    function updateUI(theme) {
+        const toggleBtn = document.getElementById('theme-toggle');
+        const ball = document.getElementById('theme-toggle-ball');
+        const icon = document.getElementById('theme-icon');
+
+        if (theme === 'light') {
+            // Style quand le bouton est activé (Thème Blanc)
+            toggleBtn.classList.remove('bg-gray-300', 'dark:bg-zinc-700');
+            toggleBtn.classList.add('bg-blue-600');
+            ball.classList.add('translate-x-5');
+            ball.classList.remove('translate-x-0');
+            icon.innerText = '☀️';
+        } else {
+            // Style quand le bouton est désactivé (Thème de base / Sombre)
+            toggleBtn.classList.add('bg-gray-300', 'dark:bg-zinc-700');
+            toggleBtn.classList.remove('bg-blue-600');
+            ball.classList.add('translate-x-0');
+            ball.classList.remove('translate-x-5');
+            icon.innerText = '🌙';
+        }
+    }
+
+    // Initialisation au chargement de la page
+    const activeTheme = localStorage.getItem('theme') || 'dark';
+    updateUI(activeTheme);
+</script>
+{% endblock %}
