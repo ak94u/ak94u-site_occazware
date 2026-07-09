@@ -60,8 +60,8 @@
                 </a>
             {% endif %}
 
-            <a href="{{ url_for('auth.deconnexion') }}" class="text-sm text-gray-400 hover:text-white transition underline underline-offset-4">
-                 Déconnexion
+            <a href="{{ url_for('auth.deconnexion') }}" class="px-4 py-2 bg-white text-black font-semibold text-sm rounded-lg hover:bg-gray-200 transition">
+                Déconnexion
             </a>
             {% else %}
                 <a href="{{ url_for('auth.connexion') }}" class="px-4 py-2 bg-white text-black font-semibold text-sm rounded-lg hover:bg-gray-200 transition">
