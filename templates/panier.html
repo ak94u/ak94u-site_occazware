@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Mon Panier - Occaz' Gaming{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <div class="border-b border-gray-800 pb-5 mb-8">
+        <h1 class="text-3xl font-extrabold tracking-tight text-white">Votre Panier</h1>
+        <p class="mt-2 text-sm text-gray-400">Finalisez votre commande de composants et configurations gamer d'occasion.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-message" class="mb-6 space-y-2 transition-opacity duration-500">
+            {% for category, message in messages %}
+                <div class="p-3 rounded-lg text-sm {% if category == 'error' %}bg-red-900/50 border border-red-800 text-red-200{% else %}bg-green-900/50 border border-green-800 text-green-200{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        
+        <div class="lg:col-span-2 space-y-4">
+            {% for item in items %}
+            <div class="bg-zinc-900 border border-gray-800 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+                
+                <div class="flex items-center gap-4 w-full sm:w-auto">
+                    <img src="{{ url_for('static', filename='img/' + (item.product.image_url if item.product.image_url else 'default.png')) }}" 
+                         alt="" 
+                         class="h-16 w-16 object-cover bg-zinc-950 p-1 rounded-lg border border-gray-800 flex-shrink-0">
+                    <div>
+                        <h3 class="font-bold text-white leading-tight text-base sm:text-lg">{{ item.product.name }}</h3>
+                        <p class="text-xs text-blue-400 font-semibold mt-0.5">{{ item.product.category }}</p>
+                        <p class="text-sm text-gray-400 font-medium mt-1">{{ "%.2f"|format(item.product.price) }} € l'unité</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto border-t sm:border-0 border-gray-800 pt-3 sm:pt-0">
+                    
+                    <div class="flex items-center bg-zinc-950 border border-gray-700 rounded-lg overflow-hidden">
+                        <form action="{{ url_for('panier.modifier_quantite', item_id=item.id) }}" method="POST" class="inline">
+                            <input type="hidden" name="action" value="diminuer">
+                            <button type="submit" class="px-3 py-1.5 text-gray-400 hover:text-white hover:bg-zinc-900 transition font-bold">-</button>
+                        </form>
+                        
+                        <span class="px-3 text-sm font-semibold text-white">{{ item.quantity }}</span>
+                        
+                        <form action="{{ url_for('panier.modifier_quantite', item_id=item.id) }}" method="POST" class="inline">
+                            <input type="hidden" name="action" value="augmenter">
+                            <button type="submit" class="px-3 py-1.5 text-gray-400 hover:text-white hover:bg-zinc-900 transition font-bold">+</button>
+                        </form>
+                    </div>
+
+                    <div class="flex items-center gap-4 text-right">
+                        <span class="text-lg font-bold text-white whitespace-nowrap">{{ "%.2f"|format(item.total_ligne) }} €</span>
+                        
+                        <form action="{{ url_for('panier.modifier_quantite', item_id=item.id) }}" method="POST" class="inline">
+                            <input type="hidden" name="action" value="supprimer">
+                            <button type="submit" class="text-gray-500 hover:text-red-400 transition" title="Supprimer du panier">
+                                🗑️
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            {% else %}
+            <div class="bg-zinc-900 border border-gray-800 rounded-xl p-12 text-center shadow-lg">
+                <div class="text-4xl mb-4">🛒</div>
+                <h3 class="text-xl font-bold text-white">Votre panier est vide</h3>
+                <p class="text-gray-400 text-sm mt-2 max-w-md mx-auto">Parcourez notre catalogue pour y ajouter les meilleures configurations de PC gaming reconditionnées.</p>
+                <a href="{{ url_for('magasin.index') }}" class="mt-6 inline-block px-5 py-2.5 bg-white text-black font-semibold text-sm rounded-lg hover:bg-gray-200 transition">
+                    Retourner à la boutique
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if items %}
+        <div class="bg-zinc-900 border border-gray-800 rounded-xl p-6 shadow-lg space-y-6 sticky top-24">
+            <h2 class="text-lg font-bold text-white border-b border-gray-800 pb-3">Résumé de la commande</h2>
+            
+            <div class="space-y-3 text-sm">
+                <div class="flex justify-between text-gray-400">
+                    <span>Articles ({{ items|sum(attribute='quantity') }})</span>
+                    <span>{{ "%.2f"|format(total_global) }} €</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                    <span>Frais de livraison</span>
+                    <span class="text-green-400 font-medium">Gratuit</span>
+                </div>
+                <div class="border-t border-gray-800 pt-3 flex justify-between text-base font-black text-white">
+                    <span>Total TTC</span>
+                    <span class="text-xl text-green-400">{{ "%.2f"|format(total_global) }} €</span>
+                </div>
+            </div>
+
+            <form action="/passer-commande" method="POST">
+                <button type="submit" class="w-full flex justify-center py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm rounded-lg shadow-md transition focus:outline-none">
+                    🔒 Procéder au paiement
+                </button>
+            </form>
+            
+            <p class="text-[11px] text-gray-500 text-center">
+                Paiement sécurisé et vérification manuelle de la conformité du matériel avant envoi.
+            </p>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

@@ -10,6 +10,7 @@ from controllers.a_propos import page_a_propos
 from controllers.magasin import page_magasin
 from controllers.admin import page_admin
 from controllers.connexion import auth_blueprint
+from controllers.panier import panier_blueprint
 
 load_dotenv()
 
@@ -41,6 +42,7 @@ app.register_blueprint(page_a_propos)
 app.register_blueprint(page_magasin)
 app.register_blueprint(page_admin)
 app.register_blueprint(auth_blueprint)
+app.register_blueprint(panier_blueprint)
 
 if __name__ == '__main__':
     app.run(debug=True)
