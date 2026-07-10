@@ -25,9 +25,15 @@
 
     <!-- En-tête adaptable -->
     <header class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-black/70 border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex justify-between items-center">
+        {% if session.get('user_id') %}
+        <a href="{{ url_for('magasin.index')}}" class="text-xl font-bold hover:opacity-80 transition" title="Boutique">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="180">
+        </a>
+        {% else %}
         <a href="{{ url_for('accueil.index') }}" class="text-xl font-bold hover:opacity-80 transition" title="accueil">
          <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="180">
         </a>
+        {% endif %}
 
         <div class="flex items-center space-x-4">
             <a href="{{ url_for('a_propos.index') }}" class="p-2 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition rounded-full hover:bg-gray-100 dark:hover:bg-gray-900 flex items-center justify-center" title="À propos">
