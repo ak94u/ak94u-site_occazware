@@ -88,6 +88,7 @@ def modifier_quantite(item_id):
             db.session.delete(item)
     elif action == 'supprimer':
         db.session.delete(item)
+        flash(f"'{item.product.name}' a été retiré de votre panier avec succès.", "success")
 
     db.session.commit()
     return redirect(url_for('panier.voir_panier'))
