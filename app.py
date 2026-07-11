@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from dotenv import load_dotenv
-from models.db import db
+from models.db import db, mail
 
 # Importer le blueprint depuis le dossier controllers
 from controllers.accueil import page_accueil
@@ -11,10 +11,27 @@ from controllers.magasin import page_magasin
 from controllers.admin import page_admin
 from controllers.connexion import auth_blueprint
 from controllers.panier import panier_blueprint
+from controllers.auth_mot_de_passe import auth_mot_de_passe
 
 load_dotenv()
 
 app = Flask(__name__)
+
+#--- CONFIGURATION DU SERVEUR SMTP POUR L'ENVOI D'EMAILS ---
+#--- CONFIGURATION DU SERVEUR SMTP POUR L'ENVOI D'EMAILS ---
+MAIL_SERVER = os.getenv('MAIL_SERVER')
+MAIL_PORT = int(os.getenv('MAIL_PORT', 587))
+MAIL_USE_TLS = os.getenv('MAIL_USE_TLS', 'True').lower() in ['true', '1', 't']
+
+app.config['MAIL_SERVER'] = MAIL_SERVER
+app.config['MAIL_PORT'] = MAIL_PORT
+app.config['MAIL_USE_TLS'] = MAIL_USE_TLS
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+# L'expéditeur officiel DOIT impérativement être identique à ton MAIL_USERNAME (ton adresse gmail)
+app.config['MAIL_DEFAULT_SENDER'] = ('Occaz Gaming 🎮', os.getenv('MAIL_USERNAME'))
+
 
 # --- CONFIGURATION (Inchangée) ---
 DB_USER = os.getenv('DB_USER')
@@ -33,6 +50,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 db.init_app(app)
+mail.init_app(app)
 
 # --- ENREGISTREMENT DES ROUTEURS (BLUEPRINTS) ---
 # On dit à Flask d'activer les routes définies dans le controller
@@ -43,6 +61,7 @@ app.register_blueprint(page_magasin)
 app.register_blueprint(page_admin)
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(panier_blueprint)
+app.register_blueprint(auth_mot_de_passe)
 
 if __name__ == '__main__':
     app.run(debug=True)

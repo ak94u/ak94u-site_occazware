@@ -37,6 +37,7 @@
                     <input id="login-password" name="password" type="password" required autocomplete="current-password" placeholder="••••••••" class="mt-1 w-full text-sm bg-zinc-950 border border-gray-700 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-blue-500">
                 </div>
             </div>
+            <a href="{{ url_for('auth_mot_de_passe.mot_de_passe') }}" class="text-sm text-blue-600 hover:text-blue-500 transition">Mot de passe oublié ?</a>
             <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-black bg-white hover:bg-gray-200 transition focus:outline-none">
                 Se connecter
             </button>
