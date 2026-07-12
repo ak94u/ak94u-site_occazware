@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 from models.db import User, db
+from email_validator import validate_email, EmailNotValidError
 
 auth_blueprint = Blueprint('auth', __name__)
 
@@ -44,16 +45,29 @@ def inscription():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    # 1. Vérifier si l'adresse email existe déjà
+    # 🟢 VERIFICATION SANS ENVOI : L'adresse email est-elle réelle ?
+    try:
+        # check_deliverability=True va interroger les serveurs (DNS/SMTP) pour vérifier l'existence réelle
+        email_valide = validate_email(email, check_deliverability=True)
+        
+        # On récupère l'email normalisé (ex: convertit les majuscules oubliées en minuscules)
+        email = email_valide.normalized
+        
+    except EmailNotValidError as e:
+        # Si le serveur n'existe pas ou si l'adresse n'est pas réelle, on lève une erreur
+        flash(f"L'adresse email est invalide ou inexistante.", "error")
+        return redirect(url_for('auth.connexion', mode='inscription'))
+
+    # 1. Vérifier si l'adresse email existe déjà en Base de Données
     user_existe = User.query.filter_by(email=email).first()
     if user_existe:
         flash("Cette adresse email est déjà utilisée.", "error")
         return redirect(url_for('auth.connexion', mode='inscription'))
 
-    # 2. Hacher le mot de passe de manière fiable (Cahier des charges)
+    # 2. Hacher le mot de passe de manière fiable
     password_safe = generate_password_hash(password)
 
-    # 3. Créer le nouvel utilisateur (rôle 'client' par défaut)
+    # 3. Créer le nouvel utilisateur
     nouvel_utilisateur = User(
         username=username,
         email=email,
