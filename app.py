@@ -12,12 +12,14 @@ from controllers.admin import page_admin
 from controllers.connexion import auth_blueprint
 from controllers.panier import panier_blueprint
 from controllers.auth_mot_de_passe import auth_mot_de_passe
+from controllers.mention_legales import mention_legales
+from controllers.cgv import cgv_blueprint
+from controllers.pdc import pdc_blueprint
 
 load_dotenv()
 
 app = Flask(__name__)
 
-#--- CONFIGURATION DU SERVEUR SMTP POUR L'ENVOI D'EMAILS ---
 #--- CONFIGURATION DU SERVEUR SMTP POUR L'ENVOI D'EMAILS ---
 MAIL_SERVER = os.getenv('MAIL_SERVER')
 MAIL_PORT = int(os.getenv('MAIL_PORT', 587))
@@ -62,6 +64,9 @@ app.register_blueprint(page_admin)
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(panier_blueprint)
 app.register_blueprint(auth_mot_de_passe)
+app.register_blueprint(mention_legales)
+app.register_blueprint(cgv_blueprint)
+app.register_blueprint(pdc_blueprint)
 
 if __name__ == '__main__':
     app.run(debug=True)
