@@ -29,49 +29,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    function toggleTheme() {
-        const html = document.documentElement;
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        
-        if (currentTheme === 'dark') {
-            // Passer au mode clair
-            html.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-            updateUI('light');
-        } else {
-            // Passer au mode sombre (de base)
-            html.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-            updateUI('dark');
-        }
-    }
-
-    function updateUI(theme) {
-        const toggleBtn = document.getElementById('theme-toggle');
-        const ball = document.getElementById('theme-toggle-ball');
-        const icon = document.getElementById('theme-icon');
-
-        if (theme === 'light') {
-            // Style quand le bouton est activé (Thème Blanc)
-            toggleBtn.classList.remove('bg-gray-300', 'dark:bg-zinc-700');
-            toggleBtn.classList.add('bg-blue-600');
-            ball.classList.add('translate-x-5');
-            ball.classList.remove('translate-x-0');
-            icon.innerText = '☀️';
-        } else {
-            // Style quand le bouton est désactivé (Thème de base / Sombre)
-            toggleBtn.classList.add('bg-gray-300', 'dark:bg-zinc-700');
-            toggleBtn.classList.remove('bg-blue-600');
-            ball.classList.add('translate-x-0');
-            ball.classList.remove('translate-x-5');
-            icon.innerText = '🌙';
-        }
-    }
-
-    // Initialisation au chargement de la page
-    const activeTheme = localStorage.getItem('theme') || 'dark';
-    updateUI(activeTheme);
-</script>
 {% endblock %}

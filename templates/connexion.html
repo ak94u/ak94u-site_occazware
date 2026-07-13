@@ -67,35 +67,4 @@
 
     </div>
 </div>
-
-<script>
-    function switchMode(mode) {
-        const formLogin = document.getElementById('form-login');
-        const formRegister = document.getElementById('form-register');
-        const tabLogin = document.getElementById('tab-login');
-        const tabRegister = document.getElementById('tab-register');
-
-        if (mode === 'register') {
-            formLogin.classList.add('hidden');
-            formRegister.classList.remove('hidden');
-            
-            tabRegister.className = "w-1/2 text-center pb-2 font-bold text-lg text-white border-b-2 border-white transition";
-            tabLogin.className = "w-1/2 text-center pb-2 font-bold text-lg text-gray-500 border-b-2 border-transparent hover:text-gray-300 transition";
-        } else {
-            formRegister.classList.add('hidden');
-            formLogin.classList.remove('hidden');
-            
-            tabLogin.className = "w-1/2 text-center pb-2 font-bold text-lg text-white border-b-2 border-white transition";
-            tabRegister.className = "w-1/2 text-center pb-2 font-bold text-lg text-gray-500 border-b-2 border-transparent hover:text-gray-300 transition";
-        }
-    }
-
-    // Permet de rester sur l'onglet inscription si le serveur renvoie une erreur d'inscription
-    document.addEventListener("DOMContentLoaded", function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('mode') === 'inscription') {
-            switchMode('register');
-        }
-    });
-</script>
 {% endblock %}
