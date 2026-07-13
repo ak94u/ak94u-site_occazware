@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, request, g
 from dotenv import load_dotenv
 from models.db import db, mail
 
@@ -15,6 +15,8 @@ from controllers.auth_mot_de_passe import auth_mot_de_passe
 from controllers.mention_legales import mention_legales
 from controllers.cgv import cgv_blueprint
 from controllers.pdc import pdc_blueprint
+from controllers.cookies import cookies_blueprint
+
 
 load_dotenv()
 
@@ -67,6 +69,7 @@ app.register_blueprint(auth_mot_de_passe)
 app.register_blueprint(mention_legales)
 app.register_blueprint(cgv_blueprint)
 app.register_blueprint(pdc_blueprint)
+app.register_blueprint(cookies_blueprint)
 
 if __name__ == '__main__':
     app.run(debug=True)
