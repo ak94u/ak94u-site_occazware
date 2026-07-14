@@ -168,3 +168,24 @@
     // Initialisation au chargement de la page
     const activeTheme = localStorage.getItem('theme') || 'dark';
     updateUI(activeTheme);
+
+
+    // 2. On surcharge la fonction de réinitialisation pour intercepter le clic
+    function reinitialiserConsentement() {
+        // Supprime le cookie
+        document.cookie = "consent=; max-age=0; path=/; SameSite=Lax";
+        
+        // Sauvegarde la date
+        const now = new Date();
+        const formattedDate = now.toLocaleString('fr-FR', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        localStorage.setItem('lastCookieUpdate', formattedDate);
+        
+        // Recharge la page
+        window.location.reload();
+    }
