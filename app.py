@@ -16,6 +16,7 @@ from controllers.mention_legales import mention_legales
 from controllers.cgv import cgv_blueprint
 from controllers.pdc import pdc_blueprint
 from controllers.cookies import cookies_blueprint
+from controllers.gdc import gdc_blueprint
 
 
 load_dotenv()
@@ -70,6 +71,7 @@ app.register_blueprint(mention_legales)
 app.register_blueprint(cgv_blueprint)
 app.register_blueprint(pdc_blueprint)
 app.register_blueprint(cookies_blueprint)
+app.register_blueprint(gdc_blueprint)
 
 @app.before_request
 def check_consent():
