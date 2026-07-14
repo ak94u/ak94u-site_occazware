@@ -71,5 +71,9 @@ app.register_blueprint(cgv_blueprint)
 app.register_blueprint(pdc_blueprint)
 app.register_blueprint(cookies_blueprint)
 
+@app.before_request
+def check_consent():
+    g.has_consent = request.cookies.get("consent") == "true"
+
 if __name__ == '__main__':
     app.run(debug=True)
