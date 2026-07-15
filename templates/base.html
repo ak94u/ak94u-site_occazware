@@ -12,6 +12,7 @@
     <div id="page-wrapper" class="flex flex-col min-h-screen transition-all duration-500 {% if not g.has_consent %}blur-md pointer-events-none select-none{% endif %}">
 
         <!-- En-tête adaptable -->
+        {% if session.get('user_id') %}
         <header class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-black/70 border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex justify-between items-center">
             {% if session.get('user_id') %}
             <a href="{{ url_for('magasin.index')}}" class="text-xl font-bold hover:opacity-80 transition" title="Boutique">
@@ -63,6 +64,59 @@
                 {% endif %}
             </div>
         </header>
+        {% else %}
+        <header class="sticky top-0 z-50 bg-transparent border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex justify-between items-center">
+            {% if session.get('user_id') %}
+            <a href="{{ url_for('magasin.index')}}" class="text-xl font-bold hover:opacity-80 transition" title="Boutique">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="180">
+            </a>
+            {% else %}
+            <a href="{{ url_for('accueil.index') }}" class="text-xl font-bold hover:opacity-80 transition" title="accueil">
+             <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="180">
+            </a>
+            {% endif %}
+
+            <div class="flex items-center space-x-4">
+                <a href="{{ url_for('a_propos.index') }}" class="p-2 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition rounded-full hover:bg-gray-100 dark:hover:bg-gray-900 flex items-center justify-center" title="À propos">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </a>
+
+                <a href="{{ url_for('parametres.index') }}" class="p-2 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition rounded-full hover:bg-gray-100 dark:hover:bg-gray-900 flex items-center justify-center" title="Paramètres">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </a>
+
+                {% if session.get('username') %}
+                <a href="{{ url_for('panier.voir_panier') }}" class="p-2 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition rounded-full hover:bg-gray-100 dark:hover:bg-gray-900 flex items-center justify-center" title="Mon panier">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </a>
+                <span class="text-sm font-medium text-gray-300">
+                    🎮 {{ session['username'] }}
+                </span>
+            
+                {% if session.get('user_role') == 'admin' %}
+                    <a href="{{ url_for('admin.dashboard') }}" class="text-xs bg-red-900/50 border border-red-800 text-red-200 px-2 py-1 rounded hover:bg-red-800 transition">
+                        Admin
+                    </a>
+                {% endif %}
+
+                <a href="{{ url_for('auth.deconnexion') }}" class="px-4 py-2 bg-white text-black font-semibold text-sm rounded-lg hover:bg-gray-200 transition">
+                    Déconnexion
+                </a>
+                {% else %}
+                    <a href="{{ url_for('auth.connexion') }}" class="px-4 py-2 bg-white text-black font-semibold text-sm rounded-lg hover:bg-gray-200 transition">
+                        Connexion
+                    </a>
+                {% endif %}
+            </div>
+        </header>
+        {% endif %}
 
         <main class="flex-grow">
             {% block content %}
