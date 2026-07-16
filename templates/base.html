@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" id="html-tag">
+<html lang="fr" id="html-tag" class= "{% if g.theme == 'dark' %}dark{% endif %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white text-black dark:bg-black dark:text-white font-sans antialiased min-h-screen flex flex-col transition-colors duration-200">
-
     <!-- 1. CONTENEUR GLOBAL : Floute tout le site si le consentement n'est pas validé -->
     <div id="page-wrapper" class="flex flex-col min-h-screen transition-all duration-500 {% if not g.has_consent %}blur-md pointer-events-none select-none{% endif %}">
 

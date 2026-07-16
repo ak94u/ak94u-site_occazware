@@ -77,5 +77,9 @@ app.register_blueprint(gdc_blueprint)
 def check_consent():
     g.has_consent = request.cookies.get("consent") == "true"
 
+@app.before_request
+def charger_preferences():
+    g.theme = request.cookies.get("theme", "dark")
+
 if __name__ == '__main__':
     app.run(debug=True)

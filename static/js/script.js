@@ -126,49 +126,46 @@
         document.querySelector('input[name="prix_max"]').addEventListener('change', () => form.submit());
     });
 
-    function toggleTheme() {
-        const html = document.documentElement;
-        const currentTheme = localStorage.getItem('theme') || 'dark';
-        
-        if (currentTheme === 'dark') {
-            // Passer au mode clair
-            html.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-            updateUI('light');
-        } else {
-            // Passer au mode sombre (de base)
-            html.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-            updateUI('dark');
-        }
-    }
+    // 1. On récupère le thème sauvegardé dans le navigateur, ou "dark" par défaut
+    let activeTheme = localStorage.getItem('theme') || 'dark';
 
     function updateUI(theme) {
         const toggleBtn = document.getElementById('theme-toggle');
         const ball = document.getElementById('theme-toggle-ball');
         const icon = document.getElementById('theme-icon');
 
+        if (!toggleBtn || !ball || !icon) return;
+
         if (theme === 'light') {
-            // Style quand le bouton est activé (Thème Blanc)
-            toggleBtn.classList.remove('bg-gray-300', 'dark:bg-zinc-700');
-            toggleBtn.classList.add('bg-blue-600');
-            ball.classList.add('translate-x-5');
-            ball.classList.remove('translate-x-0');
+            toggleBtn.className = "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-blue-600";
+            ball.className = "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-5 flex items-center justify-center text-xs";
             icon.innerText = '☀️';
+            document.documentElement.classList.remove('dark');
         } else {
-            // Style quand le bouton est désactivé (Thème de base / Sombre)
-            toggleBtn.classList.add('bg-gray-300', 'dark:bg-zinc-700');
-            toggleBtn.classList.remove('bg-blue-600');
-            ball.classList.add('translate-x-0');
-            ball.classList.remove('translate-x-5');
+            toggleBtn.className = "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-gray-300";
+            ball.className = "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-0 flex items-center justify-center text-xs";
             icon.innerText = '🌙';
+            document.documentElement.classList.add('dark');
         }
     }
 
-    // Initialisation au chargement de la page
-    const activeTheme = localStorage.getItem('theme') || 'dark';
+    // 2. On applique le thème immédiatement au chargement de la page
     updateUI(activeTheme);
 
+    function toggleTheme() {
+        // Inverse le thème
+        activeTheme = activeTheme === "dark" ? "light" : "dark";
+
+        // 3. Met à jour visuellement le bouton et le site instantanément
+        updateUI(activeTheme);
+
+        // 4. Sauvegarde dans le navigateur pour les autres pages
+        localStorage.setItem('theme', activeTheme);
+
+        // 5. On informe quand même Flask en arrière-plan (sans recharger la page)
+        fetch(`/set-theme/${activeTheme}`, { method: "POST" })
+            .catch(err => console.log("Sauvegarde cookie en arrière-plan échouée, mais le localStorage prend le relais."));
+    }
 
     // 2. On surcharge la fonction de réinitialisation pour intercepter le clic
     function reinitialiserConsentement() {
