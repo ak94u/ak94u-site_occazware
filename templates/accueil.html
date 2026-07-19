@@ -4,7 +4,7 @@
 
 {% block content %}
 <section class="flex flex-col items-center justify-center min-h-[80vh] text-center px-4">
-    {% if get.session.get('user_id') %}
+    {% if session.get('user_id') %}
     <span class="px-3 py-1 text-xs font-semibold tracking-wider text-gray-400 uppercase bg-gray-900 rounded-full border border-gray-800 mb-6">
         Le PC Gaming enfin accessible à tous
     </span>
