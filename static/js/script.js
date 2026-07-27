@@ -186,3 +186,130 @@
         // Recharge la page
         window.location.reload();
     }
+
+    //chatbot
+    let messageHistory = [];
+
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
+    const chatBox = document.getElementById('chat-box');
+    const sendBtn = document.getElementById('send-btn');
+
+    chatForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        // On push dans l'historique au format attendu par Anthropic
+        messageHistory.push({ role: 'user', content: message });
+        appendUserMessage(message);
+        userInput.value = '';
+
+        sendBtn.disabled = true;
+        sendBtn.classList.add('opacity-50');
+
+        try {
+            // 🟢 Appel de la BASSINE/ROUTE EXACTE : /api/chatbot
+            const response = await fetch('/api/chatbot', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messages: messageHistory }) // Send full messages array
+            });
+
+            const data = await response.json();
+
+            // 🟢 Alignement sur la clé "reply" renvoyée par Flask
+            if (data.reply) {
+                messageHistory.push({ role: 'assistant', content: data.reply });
+                appendBotMessage(data.reply);
+            } else {
+                appendBotMessage("Désolé, une erreur s'est produite lors de la réponse de l'IA.");
+            }
+        } catch (error) {
+            console.error('Erreur:', error);
+            appendBotMessage("Erreur de connexion avec le serveur.");
+        } finally {
+            sendBtn.disabled = false;
+            sendBtn.classList.remove('opacity-50');
+        }
+    });
+
+    function appendUserMessage(text) {
+        const div = document.createElement('div');
+        div.className = 'flex justify-end';
+        div.innerHTML = `
+            <div class="bg-blue-600 text-white p-3 rounded-2xl max-w-[80%]">
+                ${escapeHtml(text)}
+            </div>
+        `;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function appendBotMessage(text) {
+        const container = document.createElement('div');
+        container.className = 'flex flex-col items-start gap-2';
+
+        const messageBubble = document.createElement('div');
+        messageBubble.className = 'bg-gray-100 dark:bg-zinc-800 p-3 rounded-2xl max-w-[80%] text-zinc-800 dark:text-gray-200 whitespace-pre-wrap';
+        messageBubble.textContent = text;
+
+        const reportBtn = document.createElement('button');
+        reportBtn.className = 'text-xs bg-indigo-600 hover:bg-indigo-500 text-white py-1.5 px-3 rounded-xl transition font-medium flex items-center gap-1 shadow-sm';
+        reportBtn.innerHTML = '✉️ Valider et envoyer le rapport à l\'équipe';
+        
+        reportBtn.onclick = function() {
+            const emailClient = prompt("Saisissez votre email pour être recontacté (optionnel) :") || "";
+            envoyerRapportAdmin(emailClient, reportBtn);
+        };
+
+        container.appendChild(messageBubble);
+        container.appendChild(reportBtn);
+        chatBox.appendChild(container);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function envoyerRapportAdmin(emailClient, btnElement) {
+        let resume = messageHistory.map(m => `${m.role.toUpperCase()}: ${m.content}`).join("\n\n");
+        
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerHTML = "⏳ Envoi du rapport...";
+            btnElement.className = "text-xs bg-gray-500 text-white py-1.5 px-3 rounded-xl cursor-not-allowed";
+        }
+
+        try {
+            // 🟢 Appel de la route exacte : /api/envoyer-rapport-config
+            const res = await fetch('/api/envoyer-rapport-config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_summary: resume,
+                    client_email: emailClient || 'Non précisé'
+                })
+            });
+            
+            const resData = await res.json();
+            if(resData.success) {
+                if (btnElement) {
+                    btnElement.innerHTML = "✅ Rapport envoyé avec succès !";
+                    btnElement.className = "text-xs bg-emerald-600 text-white py-1.5 px-3 rounded-xl font-medium";
+                }
+            } else {
+                throw new Error(resData.error || "Erreur lors de l'envoi");
+            }
+        } catch (error) {
+            console.error(error);
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = "❌ Erreur (Cliquer pour réessayer)";
+                btnElement.className = "text-xs bg-rose-600 hover:bg-rose-500 text-white py-1.5 px-3 rounded-xl cursor-pointer";
+            }
+        }
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.innerText = text;
+        return div.innerHTML;
+    }

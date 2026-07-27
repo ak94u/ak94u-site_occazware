@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Assistant IA Config - Occaz' Gaming{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 py-8">
+    <div class="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-xl overflow-hidden flex flex-col h-[600px]">
+        
+        <!-- Header Chatbot -->
+        <div class="p-4 bg-gray-50 dark:bg-zinc-950 border-b border-gray-200 dark:border-gray-800 flex items-center gap-3">
+            <div class="p-2 bg-blue-600 text-white rounded-xl text-xl">🤖</div>
+            <div>
+                <h2 class="font-bold text-sm text-zinc-900 dark:text-white">Assistant Occaz' Gaming</h2>
+                <p class="text-xs text-green-500 font-medium">● En ligne - Recherche de configs</p>
+            </div>
+        </div>
+
+        <!-- Zone des Messages -->
+        <div id="chat-box" class="flex-grow p-4 overflow-y-auto space-y-4 text-sm">
+            <div class="flex gap-3">
+                <div class="bg-gray-100 dark:bg-zinc-800 p-3 rounded-2xl max-w-[80%] text-zinc-800 dark:text-gray-200">
+                    Bonjour ! 👋 Je suis l'assistant Occaz' Gaming. Quel est votre budget et quelles sont vos envies pour votre futur PC Gamer ?
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulaire de saisie -->
+        <form id="chat-form" class="p-4 border-t border-gray-200 dark:border-gray-800 flex gap-2">
+            <input type="text" id="user-input" placeholder="Ex: Je veux un PC à 700€ pour jouer à Fortnite et Warzone..." required
+                   class="flex-grow bg-gray-50 dark:bg-zinc-950 border border-gray-300 dark:border-gray-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 text-zinc-900 dark:text-white">
+            <button type="submit" id="send-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-5 py-2.5 rounded-xl transition text-sm flex items-center gap-2">
+                Envoyer
+            </button>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
