@@ -17,6 +17,7 @@ from controllers.cgv import cgv_blueprint
 from controllers.pdc import pdc_blueprint
 from controllers.cookies import cookies_blueprint
 from controllers.gdc import gdc_blueprint
+from controllers.chatbot import chatbot_blueprint
 
 
 load_dotenv()
@@ -72,6 +73,7 @@ app.register_blueprint(cgv_blueprint)
 app.register_blueprint(pdc_blueprint)
 app.register_blueprint(cookies_blueprint)
 app.register_blueprint(gdc_blueprint)
+app.register_blueprint(chatbot_blueprint)
 
 @app.before_request
 def check_consent():
@@ -82,4 +84,4 @@ def charger_preferences():
     g.theme = request.cookies.get("theme", "dark")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
