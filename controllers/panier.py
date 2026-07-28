@@ -254,29 +254,35 @@ def paiement_succes():
         nom_fichier = f"facture_occazgaming_cmd_{nouvelle_commande.id}.pdf"
         chemin_pdf = os.path.join(path_dir, nom_fichier)
 
-        generer_facture_pdf(
-            nom=nom,
-            prenom=prenom,
-            email=client_email,
-            articles=articles_pour_facture,
-            total=total,
-            filename=chemin_pdf
-        )
-
-        # 4. Envoi du mail avec la facture en pièce jointe
-        if client_email:
-            msg = Message(
-                subject=f"🎮 Merci pour votre achat ! Votre facture Occaz' Gaming (Commande #{nouvelle_commande.id})",
-                recipients=[client_email],
-                body=f"Bonjour {prenom} {nom},\n\nToute l'équipe d'Occaz' Gaming vous remercie pour votre commande !\n\nVous trouverez ci-joint votre facture officielle en format PDF.\n\nÀ très bientôt sur Occaz' Gaming !"
+        try:
+            generer_facture_pdf(
+                nom=nom,
+                prenom=prenom,
+                email=client_email,
+                articles=articles_pour_facture,
+                total=total,
+                filename=chemin_pdf
             )
 
-            # Attachement du fichier PDF
-            with open(chemin_pdf, 'rb') as fp:
-                msg.attach(nom_fichier, 'application/pdf', fp.read())
+            # 4. Envoi du mail avec la facture en pièce jointe
+            if client_email:
+                msg = Message(
+                    subject=f"🎮 Merci pour votre achat ! Votre facture Occaz' Gaming (Commande #{nouvelle_commande.id})",
+                    recipients=[client_email],
+                    body=f"Bonjour {prenom} {nom},\n\nToute l'équipe d'Occaz' Gaming vous remercie pour votre commande !\n\nVous trouverez ci-joint votre facture officielle en format PDF.\n\nÀ très bientôt sur Occaz' Gaming !"
+                )
 
-            with mail.connect() as conn:
-                conn.send(msg)
+                # Attachement du fichier PDF
+                with open(chemin_pdf, 'rb') as fp:
+                    msg.attach(nom_fichier, 'application/pdf', fp.read())
+
+                with mail.connect() as conn:
+                    conn.send(msg)
+
+        finally:
+            # 🟢 SUPPRESSION IMMÉDIATE DU FICHIER SERVEUR
+            if os.path.exists(chemin_pdf):
+                os.remove(chemin_pdf)
 
         # Nettoyage du panier
         CartItem.query.filter_by(user_id=user_id).delete()
