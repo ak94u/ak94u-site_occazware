@@ -313,3 +313,15 @@
         div.innerText = text;
         return div.innerHTML;
     }
+
+  function togglePassword(inputId, eyeId, eyeOffId) {
+    const input = document.getElementById(inputId);
+    const eye = document.getElementById(eyeId);
+    const eyeOff = document.getElementById(eyeOffId);
+
+    const isPassword = input.type === "password";
+    input.type = isPassword ? "text" : "password";
+
+    eye.classList.toggle("hidden", !isPassword);
+    eyeOff.classList.toggle("hidden", isPassword);
+}
