@@ -23,6 +23,9 @@ class Product(db.Model):
     category = db.Column(db.String(50))
     image_url = db.Column(db.String(255))
 
+    # Soft delete (True = visible & False = archivé)
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
+
     def __repr__(self):
         return f"<Product {self.name}>"
     
