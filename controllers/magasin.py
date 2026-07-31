@@ -15,7 +15,7 @@ def index():
 
     # 2. On prépare la requête de base vers ta table Product (PHPMyAdmin)
     # Note : on utilise Product.query directement, pas db.Product
-    query = Product.query.filter(Product.price <= prix_max)
+    query = Product.query.filter(Product.is_active == True, Product.price <= prix_max)
 
     # 3. On applique les filtres s'ils sont remplis
     if recherche:

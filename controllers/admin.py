@@ -49,6 +49,48 @@ def supprimer_produit(product_id):
     # 4. On recharge le tableau de bord
     return redirect(url_for('admin.dashboard'))
 
+@page_admin.route('/admin/desactiver-produit/<int:product_id>', methods=['POST'])
+def desactiver_produit(product_id):
+    # 1. Sécurité Admin
+    if 'user_role' not in session or session['user_role'] != 'admin':
+        abort(403)
+
+    # 2. Récupération du produit
+    produit = Product.query.get_or_404(product_id)
+
+    try:
+        # 3. ON NE DELETE PLUS : On passe juste is_active à False
+        produit.is_active = False
+        db.session.commit()
+        flash(f"Le produit '{produit.name}' a été désactivé du catalogue.", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash("Erreur lors de la désactivation du produit.", "error")
+
+    return redirect(url_for('admin.dashboard'))
+
+@page_admin.route('/admin/basculer-statut-produit/<int:product_id>', methods=['POST'])
+def basculer_statut_produit(product_id):
+    # 1. Sécurité Admin[cite: 1]
+    if 'user_role' not in session or session['user_role'] != 'admin':
+        abort(403)
+
+    # 2. Récupération du produit[cite: 1]
+    produit = Product.query.get_or_404(product_id)
+
+    try:
+        # Inverse le statut : s'il est True, devient False, et inversement
+        produit.is_active = not produit.is_active
+        db.session.commit()
+        
+        statut_txt = "réactivé" if produit.is_active else "masqué"
+        flash(f"Le produit '{produit.name}' a été {statut_txt}.", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash("Erreur lors de la modification du statut du produit.", "error")
+
+    return redirect(url_for('admin.dashboard'))
+
 @page_admin.route('/admin/ajouter-produit', methods=['POST'])
 def ajouter_produit():
     # 1. Sécurité Admin
