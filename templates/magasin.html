@@ -75,8 +75,25 @@
         {% for produit in produits %}
         <!-- (Le contenu de ta boucle produit reste inchangé) -->
         <div class="group bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden flex flex-col transition hover:shadow-lg">
-            <div class="relative bg-gray-100 dark:bg-zinc-950 aspect-video flex items-center justify-center p-4">
-                 <img src="{{ url_for('static', filename='img/' + (produit.image_url if produit.image_url else 'default.png')) }}" alt="{{ produit.name }}" class="w-full h-full object-cover">
+            <div class="relative bg-gray-100 dark:bg-zinc-950 aspect-video flex items-center justify-center overflow-hidden">
+                {% if produit.image_url %}
+                    {% if produit.image_url.startswith('http') %}
+                        {# Fichier hébergé sur Cloudinary #}
+                        {% if produit.image_url.endswith('.mp4') or produit.image_url.endswith('.mov') or produit.image_url.endswith('.webm') %}
+                            {# Si c'est une vidéo #}
+                            <video src="{{ produit.image_url }}" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+                        {% else %}
+                            {# Si c'est une image #}
+                            <img src="{{ produit.image_url }}" alt="{{ produit.name }}" class="w-full h-full object-cover">
+                        {% endif %}
+                    {% else %}
+                        {# Ancien système : Image locale #}
+                        <img src="{{ url_for('static', filename='img/' + produit.image_url) }}" alt="{{ produit.name }}" class="w-full h-full object-cover">
+                    {% endif %}
+                {% else %}
+                    {# Image de secours par défaut #}
+                    <img src="{{ url_for('static', filename='img/default.png') }}" alt="{{ produit.name }}" class="w-full h-full object-cover">
+                {% endif %}
             </div>
             <div class="p-5 flex-grow">
                 <h3 class="font-bold text-lg">{{ produit.name }}</h3>

@@ -1,4 +1,6 @@
 import os
+import cloudinary
+import cloudinary.uploader
 from flask import Blueprint, flash, redirect, render_template, request, session, abort, url_for, current_app
 from models import db
 from models.db import db, Product, Order
@@ -104,24 +106,34 @@ def ajouter_produit():
     category = request.form.get('category')
     stock = request.form.get('stock', type=int)
     
-    # 3. Gestion de l'image
+    # 3. Gestion du média (Image ou Vidéo) avec Cloudinary
     file = request.files.get('image')
-    filename = 'default.png'  # Image par défaut si aucune n'est fournie
+    # Image/Média par défaut si aucun fichier n'est fourni
+    image_url = 'https://res.cloudinary.com/demo/image/upload/sample.jpg' 
 
     if file and file.filename != '':
-        # Sécurise le nom du fichier (évite les caractères bizarres)
-        filename = secure_filename(file.filename)
-        # Sauvegarde l'image dans static/img/
-        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        try:
+            # Envoi vers Cloudinary
+            # resource_type="auto" permet d'accepter aussi bien des images (jpg, png, webp) que des vidéos (mp4, mov...)
+            upload_result = cloudinary.uploader.upload(
+                file,
+                resource_type="auto",
+                folder="mon_ecommerce_produits"  # Nom du dossier sur ton compte Cloudinary
+            )
+            # On récupère l'URL complète et sécurisée (HTTPS)
+            image_url = upload_result.get('secure_url')
+        except Exception as e:
+            flash(f"Erreur lors de l'envoi de l'image sur Cloudinary : {str(e)}", "error")
+            return redirect(url_for('admin.dashboard'))
 
-    # 4. Création et enregistrement du produit
+    # 4. Création et enregistrement du produit avec la nouvelle URL Cloudinary
     nouveau_produit = Product(
         name=name,
         description=description,
         price=price,
         category=category,
         stock=stock,
-        image_url=filename
+        image_url=image_url  # On stocke l'URL Cloudinary complète en base de données !
     )
 
     try:

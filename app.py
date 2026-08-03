@@ -1,7 +1,10 @@
 import os
+import cloudinary
+import cloudinary.uploader
 from flask import Flask, request, g
 from dotenv import load_dotenv
 from models.db import db, mail
+
 
 # Importer le blueprint depuis le dossier controllers
 from controllers.accueil import page_accueil
@@ -23,6 +26,14 @@ from controllers.chatbot import chatbot_blueprint
 load_dotenv()
 
 app = Flask(__name__)
+
+# Configuration de Cloudinary
+cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET'),
+    secure=True
+)
 
 #--- CONFIGURATION DU SERVEUR SMTP POUR L'ENVOI D'EMAILS ---
 MAIL_SERVER = os.getenv('MAIL_SERVER')

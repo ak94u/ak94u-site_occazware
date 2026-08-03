@@ -123,7 +123,22 @@
                     {% for produit in produits %}
                     <tr class="hover:bg-gray-50 dark:hover:bg-zinc-950/40 transition">
                         <td class="px-6 py-3 w-16 h-16">
-                            <img src="{{ url_for('static', filename='img/' + (produit.image_url if produit.image_url else 'default.png')) }}" alt="" class="w-full h-full object-cover bg-gray-100 dark:bg-zinc-950 rounded border border-gray-200 dark:border-gray-800">
+                            {% if produit.image_url %}
+                                {% if produit.image_url.startswith('http') %}
+                                    {# URL Cloudinary #}
+                                    {% if produit.image_url.endswith('.mp4') or produit.image_url.endswith('.mov') or produit.image_url.endswith('.webm') %}
+                                        <video src="{{ produit.image_url }}" class="w-full h-full object-cover bg-gray-100 dark:bg-zinc-950 rounded border border-gray-200 dark:border-gray-800" autoplay loop muted></video>
+                                    {% else %}
+                                        <img src="{{ produit.image_url }}" alt="{{ produit.name }}" class="w-full h-full object-cover bg-gray-100 dark:bg-zinc-950 rounded border border-gray-200 dark:border-gray-800">
+                                    {% endif %}
+                                {% else %}
+                                    {# Ancien stockage local de secours #}
+                                    <img src="{{ url_for('static', filename='img/' + produit.image_url) }}" alt="{{ produit.name }}" class="w-full h-full object-cover bg-gray-100 dark:bg-zinc-950 rounded border border-gray-200 dark:border-gray-800">
+                                {% endif %}
+                            {% else %}
+                                {# Image par défaut #}
+                                <img src="{{ url_for('static', filename='img/default.png') }}" alt="Default" class="w-full h-full object-cover bg-gray-100 dark:bg-zinc-950 rounded border border-gray-200 dark:border-gray-800">
+                            {% endif %}
                         </td>
                         <td class="px-6 py-3 font-medium text-zinc-900 dark:text-white">{{ produit.name }}</td>
                         <td class="px-6 py-3 text-gray-500 dark:text-gray-400">{{ produit.category }}</td>
@@ -225,7 +240,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Photo du produit</label>
-                <input type="file" name="image" accept="image/*" class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-200 dark:file:bg-zinc-800 file:text-zinc-900 dark:file:text-white hover:file:bg-gray-300 dark:hover:file:bg-zinc-700 cursor-pointer">
+                <input type="file" name="image" accept="image/*,video/*" class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-200 dark:file:bg-zinc-800 file:text-zinc-900 dark:file:text-white hover:file:bg-gray-300 dark:hover:file:bg-zinc-700 cursor-pointer">
             </div>
 
             <div class="flex justify-end pt-2">
