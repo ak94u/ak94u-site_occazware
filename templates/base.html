@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Occaz' Gaming{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Favicon classique pour navigateurs web -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicons/favicon.ico') }}">
+
+    <!-- Favicons au format PNG (pour les onglets haute résolution) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicons/favicon-16x16.png') }}">
+
+    <!-- Favicon pour les raccourcis iOS / Apple -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/favicons/apple-touch-icon.png') }}">
 </head>
 <body class="bg-white text-black dark:bg-black dark:text-white font-sans antialiased min-h-screen flex flex-col transition-colors duration-200">
     <!-- 1. CONTENEUR GLOBAL : Floute tout le site si le consentement n'est pas validé -->
